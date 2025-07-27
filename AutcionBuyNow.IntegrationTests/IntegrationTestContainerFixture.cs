@@ -4,6 +4,7 @@ using AuctionBuyNow.Infrastructure.Persistance;
 using AuctionBuyNow.WebApi;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using Testcontainers.MsSql;
 using Testcontainers.Redis;
 
@@ -59,6 +60,13 @@ public class IntegrationTestContainerFixture : IAsyncLifetime
         });
 
         await db.SaveChangesAsync();
+
+        var redis = await ConnectionMultiplexer.ConnectAsync(_redisContainer.GetConnectionString());
+        var dbRedis = redis.GetDatabase();
+
+        // Key: stock:{itemId}
+        var redisKey = $"stock:{TestItemId}";
+        await dbRedis.StringSetAsync(redisKey, 10);
     }
 
     public async Task DisposeAsync()
