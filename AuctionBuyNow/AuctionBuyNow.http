@@ -1,0 +1,14 @@
+﻿### 🟢 Get all auction items
+GET https://localhost:7234/api/auction/items
+Accept: application/json
+
+###
+
+### 🟠 Buy now (one product)
+POST https://localhost:7234/api/auction/buy-now
+Content-Type: application/json
+
+{
+  "itemId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "userId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+}
