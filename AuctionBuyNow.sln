@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBuyNow.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBuyNow.UnitTests", "AuctionBuyNow.UnitTests\AuctionBuyNow.UnitTests.csproj", "{D34C6490-57C0-4502-89E6-2A30B414FB27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutcionBuyNow.IntegrationTests", "AutcionBuyNow.IntegrationTests\AutcionBuyNow.IntegrationTests.csproj", "{BC5DCD70-D792-47C9-9548-81CCF5876E3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5DCD70-D792-47C9-9548-81CCF5876E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5DCD70-D792-47C9-9548-81CCF5876E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5DCD70-D792-47C9-9548-81CCF5876E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5DCD70-D792-47C9-9548-81CCF5876E3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
