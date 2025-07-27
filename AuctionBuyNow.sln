@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBuyNow.Domain", "Auc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBuyNow.Infrastructure", "AuctionBuyNow.Infrastructure\AuctionBuyNow.Infrastructure.csproj", "{69D298CC-0F84-48CB-AACB-6C8B7CAEF78E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBuyNow.UnitTests", "AuctionBuyNow.UnitTests\AuctionBuyNow.UnitTests.csproj", "{D34C6490-57C0-4502-89E6-2A30B414FB27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{69D298CC-0F84-48CB-AACB-6C8B7CAEF78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69D298CC-0F84-48CB-AACB-6C8B7CAEF78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69D298CC-0F84-48CB-AACB-6C8B7CAEF78E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34C6490-57C0-4502-89E6-2A30B414FB27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
