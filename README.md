@@ -1,4 +1,4 @@
-# 🛒 Auction Buy Now System
+# 🛒 Auction Buy Now System example
 
 > High-throughput auction system with **"Buy Now"** capability, implemented in **.NET 9** using **Clean Architecture** and **Microsoft technologies** (SQL Server, Redis, ASP.NET Core). Designed to handle massive concurrent traffic with `first come, first served` logic and concurrency safety.
 
