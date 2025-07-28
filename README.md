@@ -1,4 +1,4 @@
-# 🛒 Auction Buy Now System
+# 🛒 Auction System Example
 
 > **A showcase project** demonstrating high-performance, modern software architecture in .NET. Built to present **concurrency handling**, **Clean Architecture**, **CQRS**, **Redis**, **SQL Server**, and future refactorings toward **DDD**, **Event Sourcing**, and **streaming-first architectures (Kappa/Lambda)**.
 ---
