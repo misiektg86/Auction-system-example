@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AuctionBuyNow.PerfTests": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

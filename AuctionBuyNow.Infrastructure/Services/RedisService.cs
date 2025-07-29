@@ -13,4 +13,10 @@ public class RedisService(IConnectionMultiplexer redis) : IRedisService
 
     public Task IncrementAsync(string key)
         => _db.StringIncrementAsync(key);
+
+    public Task SetStockAsync(Guid itemId, int stock)
+    {
+        var key = $"stock:{itemId}";
+        return _db.StringSetAsync(key, stock);
+    }
 }
