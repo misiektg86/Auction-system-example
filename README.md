@@ -1,12 +1,22 @@
-# 🛒 Auction Buy Now System
+# 🛒 Auction System Example
 
-> High-throughput auction system with **"Buy Now"** capability, implemented in **.NET 9** using **Clean Architecture** and **Microsoft technologies** (SQL Server, Redis, ASP.NET Core). Designed to handle massive concurrent traffic with `first come, first served` logic and concurrency safety.
+> **A showcase project** demonstrating high-performance, modern software architecture in .NET. Built to present **concurrency handling**, **Clean Architecture**, **CQRS**, **Redis**, **SQL Server**, and future refactorings toward **DDD**, **Event Sourcing**, and **streaming-first architectures (Kappa/Lambda)**.
+---
+
+## 🎯 Project Goals
+
+- ✅ Handle **high-concurrency "Buy Now"** operations with first-come, first-served guarantees
+- ✅ Showcase **Clean Architecture** principles (separation of concerns, testability)
+- 🚧 Refactor toward **DDD (Domain-Driven Design)** structure
+- 🚧 Introduce **Event Sourcing** using existing SQL as event store
+- 🚧 Build **CQRS** separation: command model (write) + projection model (read)
+- 🚧 Add **reactive frontend** (Blazor or React + SignalR)
+- 🚧 Integrate **messaging with Kafka / RabbitMQ**
+- 🚧 Explore **Kappa** and **Lambda** architectures for real-time auction analytics
 
 ---
 
-## 🧱 Architecture
-
-This project follows the **Clean Architecture / Onion Architecture** style with a clear separation of concerns:
+## 🧱 Current Architecture
 
 ```
 ┌────────────────────────────┐
@@ -16,78 +26,48 @@ This project follows the **Clean Architecture / Onion Architecture** style with 
 ├────────────────────────────┤
 │       Domain Model         │ ← Entities, Value Objects
 ├────────────────────────────┤
-│     Infrastructure Layer   │ ← SQL Server, Redis, Repository, Services
+│     Infrastructure Layer   │ ← SQL Server, Redis, Repositories, Services
 └────────────────────────────┘
 ```
 
 ---
 
-## 🧪 Testing
+## 💥 High-Concurrency Strategy
 
-This solution includes full test coverage:
+- Redis stores stock count: `stock:{itemId}`  
+- Atomic `DECR` ensures only available stock is reserved
+- If Redis < 0 → return "sold out"
+- If OK → SQL Server updates reservation (`pessimistic concurrency`)
+- SQL failure → rollback Redis via `INCR`
+- 🔐 Thread-safe and fast — no locks, no race conditions
+
+---
+
+## 🧪 Testing Strategy
 
 ### ✅ Unit Tests
-- Tests for core application logic (`BuyNowHandler`)
-- Mocks Redis and SQL access
+- Pure logic (e.g. `BuyNowHandler`) tested with mocks
+- Fast and isolated
 
 ### ✅ Integration Tests
-- Use **Testcontainers** to run:
-  - **SQL Server**
-  - **Redis**
-- The test suite:
-  - Seeds data into SQL and Redis
-  - Executes HTTP requests against the running API
-  - Tears down containers automatically after the run
+- Run Redis + SQL in Docker via Testcontainers
+- Seed data, perform real API calls
+- Setup + teardown included
 
 ---
 
-## ⚙️ Technology Stack
+## 🧰 Technology Stack
 
-| Layer          | Technology                    |
-|----------------|-------------------------------|
-| API            | ASP.NET Core 9 (Minimal API)  |
-| Database       | SQL Server via Docker         |
-| Cache / Lock   | Redis                         |
-| Messaging      | – (planned: RabbitMQ/Kafka)   |
-| DI + CQRS      | MediatR-style Command/Query   |
-| Frontend       | React or Blazor (planned)     |
-| Testing        | xUnit, Testcontainers         |
-| Dev Env        | VS Code / Docker / macOS      |
-
----
-
-## 🚀 Buy Now Logic
-
-- Redis holds real-time stock via `DECR` (atomic decrement)
-- If Redis count drops below 0 → return “sold out” immediately
-- If OK → proceed to SQL to reserve the item (pessimistic concurrency)
-- If SQL fails → rollback Redis with `INCR`
-- ✅ Ensures **"first come, first served"** under high traffic
-
----
-
-## ▶️ Getting Started
-
-### 1. Start Redis and SQL containers (optional)
-
-```bash
-docker-compose up -d
-```
-
-> Integration tests also spin up containers automatically
-
-### 2. Run the API
-
-```bash
-dotnet run --project src/AuctionSystem.Api
-```
-
-### 3. Run Tests
-
-```bash
-dotnet test tests/AuctionSystem.UnitTests
-dotnet test tests/AuctionSystem.IntegrationTests
-```
+| Layer          | Technology                      |
+|----------------|----------------------------------|
+| Backend        | ASP.NET Core 9                   |
+| Database       | SQL Server via Docker            |
+| Cache / Lock   | Redis                            |
+| Tests          | xUnit, Testcontainers            |
+| Messaging      | (Planned: Kafka, RabbitMQ)       |
+| Architecture   | Clean Architecture (→ DDD, CQRS) |
+| Frontend       | (Planned: React or Blazor)       |
+| Dev Env        | VS Code / Docker / macOS         |
 
 ---
 
@@ -97,29 +77,66 @@ dotnet test tests/AuctionSystem.IntegrationTests
 auction-buy-now/
 ├── src/
 │   ├── AuctionSystem.Api/             ← ASP.NET Core API
-│   ├── AuctionSystem.Application/     ← CQRS logic
-│   ├── AuctionSystem.Domain/          ← Domain models
+│   ├── AuctionSystem.Application/     ← CQRS Handlers, Interfaces
+│   ├── AuctionSystem.Domain/          ← Domain models (to refactor to DDD)
 │   └── AuctionSystem.Infrastructure/  ← Redis, SQL, Repositories
 ├── tests/
-│   ├── AuctionSystem.UnitTests/       ← Pure logic tests
-│   └── AuctionSystem.IntegrationTests/← Docker-based end-to-end tests
-├── docker-compose.yml                 ← Redis + SQL containers
+│   ├── AuctionSystem.UnitTests/       ← Unit tests
+│   └── AuctionSystem.IntegrationTests/← Testcontainers: SQL + Redis
+├── docker-compose.yml                 ← SQL + Redis containers
 └── README.md
 ```
 
 ---
 
-## 📌 Roadmap
+## 🔮 Roadmap
 
-- 🔐 Authentication and authorization
-- 🌐 Real frontend: React or Blazor
-- 🔁 Retry and circuit-breaker policies
-- 📈 Load & stress testing (NBomber, k6)
-- 💾 Event sourcing (in next version)
-- 📦 EF Core migrations
+### ✅ Phase 1: (Current)
+- [x] ASP.NET Core API
+- [x] Redis stock locking
+- [x] SQL Server reservation
+- [x] Integration + unit tests
+
+### 🚧 Phase 2: DDD + CQRS
+- [ ] Restructure to aggregates, VOs, domain events
+- [ ] Add read model with projections (EF Core or NoSQL)
+- [ ] Sync read model via background processor or events
+
+### 🚧 Phase 3: Event Sourcing
+- [ ] Store events in SQL table
+- [ ] Replay event stream to rebuild item state
+- [ ] Snapshot optimization
+
+### 🚧 Phase 4: Messaging + Streaming
+- [ ] Use Kafka or RabbitMQ for `ItemBought`, `OutOfStock` etc.
+- [ ] Reactive UI (Blazor/React + SignalR)
+- [ ] Real-time analytics stream: Kafka → Stream Processing → Dashboard
+
+### 🚧 Phase 5: Architectures
+- [ ] Kappa architecture stream → materialized views (1 system)
+- [ ] Lambda architecture: batch + streaming + serving layer
 
 ---
 
-## 📄 License
+## 🚀 Running the Project
 
-MIT © [Michał Kocik](https://github.com/misiektg86)
+```bash
+# Start SQL + Redis
+docker-compose up -d
+
+# Run the API
+dotnet run --project src/AuctionSystem.Api
+
+# Run all tests
+dotnet test tests/AuctionSystem.UnitTests
+dotnet test tests/AuctionSystem.IntegrationTests
+```
+
+---
+
+## 👤 Author
+
+**Michał Kocik**  
+[GitHub](https://github.com/misiektg86) | [LinkedIn](https://www.linkedin.com/in/michal-kocik-6102189a/)
+
+This project is intended as a **portfolio-quality example** for software architecture, concurrency, and distributed system patterns.
