@@ -12,7 +12,6 @@ public static class BuyNowScenario
     {
         var itemId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
-        // Tu robimy await, np. seeding od razu
         ctx.DbContext.AuctionItems.RemoveRange(ctx.DbContext.AuctionItems);
         ctx.DbContext.AuctionItems.Add(new AuctionItem
         {
@@ -21,7 +20,7 @@ public static class BuyNowScenario
             TotalStock = 50
         });
 
-        await ctx.DbContext.SaveChangesAsync(); // ⬅️ wymusza async
+        await ctx.DbContext.SaveChangesAsync(); 
         await ctx.Redis.SetStockAsync(itemId, 50);
 
         var scenario = Scenario.Create("buy_now", async stepCtx =>

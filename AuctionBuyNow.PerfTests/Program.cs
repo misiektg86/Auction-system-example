@@ -13,8 +13,7 @@ namespace AuctionBuyNow.PerfTests
 
             var scenarios = new[]
             {
-                await BuyNowScenario.CreateAsync(context),
-                // await CancelOrderScenario.CreateAsync(context),
+                await BuyNowScenario.CreateAsync(context)
             };
 
             NBomberRunner
