@@ -1,5 +1,5 @@
 ﻿using AuctionBuyNow.Application.Items.DTOs;
-using AuctionBuyNow.Domain.Repositiories;
+using AuctionBuyNow.Domain.Auctions.Repositiories;
 using MediatR;
 
 namespace AuctionBuyNow.Application.Items.Queries;
@@ -8,9 +8,9 @@ public class GetItemsHandler(IAuctionRepository repository) : IRequestHandler<Ge
 {
     public async Task<List<AuctionItemDto>> Handle(GetItemsQuery request, CancellationToken cancellationToken)
     {
-        var items = await repository.GetAllAsync();
+        var items = await repository.GetAllAsync(cancellationToken);
         return items
-            .Select(i => new AuctionItemDto(i.Id, i.Name, i.TotalStock, i.Reserved))
+            .Select(i => new AuctionItemDto(i.Id, i.Name, i.Stock.Value))
             .ToList();
     }
 }

@@ -1,5 +1,6 @@
 ﻿
-using AuctionBuyNow.Domain.Entities;
+using AuctionBuyNow.Domain.Auctions.Entities;
+using AuctionBuyNow.Domain.Auctions.ValueObjects;
 using AuctionBuyNow.Infrastructure.Persistance;
 using AuctionBuyNow.WebApi;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -51,14 +52,13 @@ public class IntegrationTestContainerFixture : IAsyncLifetime
         var db = _scope.ServiceProvider.GetRequiredService<AuctionDbContext>();
         await db.Database.EnsureCreatedAsync();
 
-        db.AuctionItems.Add(new AuctionItem
-        {
-            Id = TestItemId,
-            Name = "Test Item",
-            TotalStock = 10,
-            Reserved = 0
-        });
+        var auction = new AuctionItem(
+            new AuctionId(TestItemId),
+            "Test Item",
+            new Stock(10)
+        );
 
+        db.AuctionItems.Add(auction);
         await db.SaveChangesAsync();
 
         var redis = await ConnectionMultiplexer.ConnectAsync(_redisContainer.GetConnectionString());

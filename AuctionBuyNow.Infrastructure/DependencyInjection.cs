@@ -1,5 +1,6 @@
-﻿using AuctionBuyNow.Application.Common.Services;
-using AuctionBuyNow.Domain.Repositiories;
+﻿using AuctionBuyNow.Application.Common;
+using AuctionBuyNow.Application.Common.Services;
+using AuctionBuyNow.Domain.Auctions.Repositiories;
 using AuctionBuyNow.Infrastructure.Persistance;
 using AuctionBuyNow.Infrastructure.Repositories;
 using AuctionBuyNow.Infrastructure.Services;
@@ -15,6 +16,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         // services.AddSingleton<IAuctionRepository, InMemoryAuctionRepository>();
+
+        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
         services.AddDbContext<AuctionDbContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));

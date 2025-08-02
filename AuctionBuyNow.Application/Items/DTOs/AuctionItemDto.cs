@@ -1,3 +1,3 @@
 ﻿namespace AuctionBuyNow.Application.Items.DTOs;
 
-public record AuctionItemDto(Guid Id, string Name, int TotalStock, int Reserved);
+public record AuctionItemDto(Guid Id, string Name, int TotalStock);
