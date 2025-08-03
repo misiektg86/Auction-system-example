@@ -102,7 +102,9 @@ public class BuyNowHandlerTests
         var userId = Guid.NewGuid();
         var command = new BuyNowCommand(itemId, userId);
 
-        var auction = new AuctionItem(new AuctionId(itemId), "test", new Stock(0));
+        var auction = new AuctionItem(new AuctionId(itemId), "test", new Stock(1));
+
+        auction.TryReserve(); // Set stock sold out
 
         _redisMock.Setup(r => r.DecrementAsync(It.IsAny<string>()))
             .ReturnsAsync(1);
